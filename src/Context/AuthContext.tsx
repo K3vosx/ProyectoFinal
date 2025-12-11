@@ -18,23 +18,22 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    // 1. Intentamos leer si ya había sesión guardada en LocalStorage
     const [user, setUser] = useState<User | null>(() => {
         const saved = localStorage.getItem('session_user');
         return saved ? JSON.parse(saved) : null;
     });
 
-    // 2. Función para Iniciar Sesión
     const login = (userData: User) => {
         setUser(userData);
         localStorage.setItem('session_user', JSON.stringify(userData));
     };
 
-    // 3. Función para Cerrar Sesión
+    // MODIFICACIÓN AQUÍ:
     const logout = () => {
         setUser(null);
         localStorage.removeItem('session_user');
-        window.location.href = "/login"; // Redirigir a login forzado
+        // ELIMINAMOS: window.location.href = "/login"; 
+        // Ya no recargamos la página bruscamente.
     };
 
     return (
@@ -44,5 +43,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// Hook personalizado para usar la sesión en cualquier parte
 export const useAuth = () => useContext(AuthContext);
