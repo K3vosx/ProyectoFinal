@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ServAlovaGetPrendas } from '../Servicios/ServAlovaGetPrendas';
 
 export const CompGetPrendas = () => {
