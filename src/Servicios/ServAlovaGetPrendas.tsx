@@ -19,11 +19,9 @@ export const ServAlovaGetPrendas = () => {
         responded: (response) => response.json()
     });
 
-    // Función para recargar los datos
     const cargarPrendas = () => {
         if (user) {
             setLoading(true);
-            // Traemos TODAS las prendas del usuario, sin importar el estado
             instanceAlova.Get(`/Prenda?select=*&order=prendaID.desc&usuario_id=eq.${user.id}`)
                 .then((respuesta: any) => {
                     setData(respuesta);
@@ -41,7 +39,6 @@ export const ServAlovaGetPrendas = () => {
         cargarPrendas();
     }, [user]);
 
-    // Generador de código visual
     const generarCodigoCupon = (id: number, tipo: string) => {
         return `FALA-${tipo.substring(0, 3).toUpperCase()}-${id}X`;
     };
@@ -73,7 +70,6 @@ export const ServAlovaGetPrendas = () => {
                                     <div style={{fontSize:'12px', color:'#999'}}>ID: #{item.prendaID}</div>
                                 </td>
 
-                                {/* 2. Foto */}
                                 <td>
                                     {item.imagen_url ? (
                                         <a href={item.imagen_url} target="_blank" rel="noreferrer" title="Ver foto original">
@@ -92,7 +88,6 @@ export const ServAlovaGetPrendas = () => {
                                     )}
                                 </td>
 
-                                {/* 3. Estado Físico */}
                                 <td>
                                     <span style={{
                                         padding: '5px 10px', borderRadius: '15px', fontSize: '12px', fontWeight: 'bold',
@@ -103,7 +98,6 @@ export const ServAlovaGetPrendas = () => {
                                     </span>
                                 </td>
 
-                                {/* 4. Aprobación Admin (Texto Colorido) */}
                                 <td>
                                     {item.estado_aprobacion === 'Aprobado' ? (
                                         <span style={{color:'green', fontWeight:'bold'}}>✅ Aceptado</span>
@@ -114,10 +108,8 @@ export const ServAlovaGetPrendas = () => {
                                     )}
                                 </td>
 
-                                {/* 5. RECOMPENSA (Lógica Solicitada) */}
                                 <td style={{verticalAlign: 'middle'}}>
                                     {item.estado_aprobacion === 'Aprobado' ? (
-                                        /* CASO 1: APROBADO -> MUESTRA CUPÓN */
                                         <div style={{
                                             border: '1px dashed var(--fala-green)',
                                             background: 'rgba(190, 208, 0, 0.1)',
@@ -132,10 +124,8 @@ export const ServAlovaGetPrendas = () => {
                                             <div style={{fontSize:'10px', color:'#555'}}>¡20% OFF DISPONIBLE!</div>
                                         </div>
                                     ) : item.estado_aprobacion === 'Rechazado' ? (
-                                        /* CASO 2: RECHAZADO */
                                         <span style={{fontSize:'12px', color:'#999'}}>No cumple requisitos</span>
                                     ) : (
-                                        /* CASO 3: PENDIENTE -> MENSAJE DE ESPERA */
                                         <div style={{
                                             fontSize:'12px', 
                                             color:'#f57f17', 

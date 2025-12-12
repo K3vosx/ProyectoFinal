@@ -1,12 +1,12 @@
 
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // 1. Importar useNavigate
+import { Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../Context/AuthContext';
 
 export const CompNavbar = () => {
   const [theme, setTheme] = useState('light');
   const { user, logout } = useAuth();
-  const navigate = useNavigate(); // 2. Activar el hook de navegación
+  const navigate = useNavigate(); 
 
   const toggleTheme = () => {
     const nuevoTema = theme === 'light' ? 'dark' : 'light';
@@ -14,19 +14,16 @@ export const CompNavbar = () => {
     document.documentElement.setAttribute('data-theme', nuevoTema);
   };
 
-  // 3. Crear función manejadora para salir
   const handleLogout = () => {
-    logout(); // Borra el usuario del contexto
-    navigate('/login'); // Redirige suavemente sin recargar la página
+    logout(); 
+    navigate('/login'); 
   };
 
   return (
     <header>
       <nav className="fala-navbar">
-        {/* ... (Todo el código del logo y buscador sigue igual) ... */}
         <div className="fala-container">
           <Link to="/" className="fala-logo">falabella<span className="com">.com</span></Link>
-          {/* ... buscador ... */}
           <div className="fala-search">
             <input type="text" placeholder="Buscar en falabella.com" />
             <button className="search-btn">🔍</button>
@@ -41,7 +38,6 @@ export const CompNavbar = () => {
                   <span>Hola,</span>
                   <span className="user-name">{user.username}</span>
                 </div>
-                {/* 4. Usar la nueva función handleLogout */}
                 <button onClick={handleLogout} className="btn-logout">
                   Cerrar sesión
                 </button>
@@ -54,7 +50,6 @@ export const CompNavbar = () => {
           </div>
         </div>
       </nav>
-      {/* ... (Categorías siguen igual) ... */}
       <div className="fala-categories">
         <span>Menú</span>
         <span>Mujer</span>

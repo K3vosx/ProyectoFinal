@@ -4,12 +4,11 @@ import { createAlova } from 'alova';
 import adapterFetch from 'alova/fetch';
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_URL, SUPABASE_KEY, supabaseHeaders } from './supabaseConfig';
-import { useAuth } from '../Context/AuthContext'; // <--- IMPORTANTE
+import { useAuth } from '../Context/AuthContext'; 
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export const ServAlovaPostPrenda = () => {
-    // Estados
     const [tipo, setTipo] = useState("");
     const [talla, setTalla] = useState("");
     const [descripcion, setDescripcion] = useState("");
@@ -18,8 +17,7 @@ export const ServAlovaPostPrenda = () => {
     const [mensaje, setMensaje] = useState({ text: "", isError: false });
     const [cargando, setCargando] = useState(false);
 
-    // Contexto de Usuario
-    const { user } = useAuth(); // <--- OBTENEMOS EL USUARIO LOGUEADO
+    const { user } = useAuth(); 
 
     const instanceAlova = createAlova({
         baseURL: `${SUPABASE_URL}/rest/v1`,
@@ -41,7 +39,6 @@ export const ServAlovaPostPrenda = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        // Validación de usuario
         if (!user) {
             setMensaje({ text: "⚠️ Error: No hay sesión activa. Recarga la página.", isError: true });
             return;
@@ -56,7 +53,6 @@ export const ServAlovaPostPrenda = () => {
         setMensaje({ text: "Subiendo imagen...", isError: false });
 
         try {
-            // 1. Subir imagen
             const fileName = `${Date.now()}_${imagenFile.name.replace(/\s/g, '')}`;
             const { error: uploadError } = await supabase.storage
                 .from('evidencias')
@@ -68,7 +64,6 @@ export const ServAlovaPostPrenda = () => {
                 .from('evidencias')
                 .getPublicUrl(fileName);
 
-            // 2. Guardar datos (INCLUYENDO EL ID DEL USUARIO)
             const nuevaPrenda = {
                 tipo,
                 talla,
@@ -76,14 +71,13 @@ export const ServAlovaPostPrenda = () => {
                 estado: "Registrado",
                 estado_aprobacion: "Pendiente",
                 imagen_url: publicUrl,
-                usuario_id: user.id // <--- ESTA LÍNEA ES LA CLAVE QUE FALTABA
+                usuario_id: user.id 
             };
 
             await instanceAlova.Post("/Prenda", nuevaPrenda);
 
             setMensaje({ text: "✅ ¡Prenda enviada! Espera la aprobación.", isError: false });
             
-            // Limpiar formulario
             setTipo(""); setTalla(""); setDescripcion(""); 
             setImagenFile(null); setPreview(null);
 

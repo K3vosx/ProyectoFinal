@@ -1,7 +1,6 @@
 import { createContext, useState, useContext } from 'react';
-import type { ReactNode } from 'react'; // <--- SEPARA ESTA IMPORTACIÓN ASÍ
+import type { ReactNode } from 'react'; 
 
-// Tipos de datos del Usuario (según tu nueva base de datos)
 interface User {
     id: number;
     username: string;
@@ -28,12 +27,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('session_user', JSON.stringify(userData));
     };
 
-    // MODIFICACIÓN AQUÍ:
     const logout = () => {
         setUser(null);
         localStorage.removeItem('session_user');
-        // ELIMINAMOS: window.location.href = "/login"; 
-        // Ya no recargamos la página bruscamente.
     };
 
     return (

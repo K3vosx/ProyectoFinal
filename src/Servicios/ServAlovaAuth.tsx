@@ -6,16 +6,13 @@ import { useAuth } from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export const ServAlovaAuth = () => {
-    // Estados
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     
-    // Hooks
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    // Instancia Alova
     const instanceAlova = createAlova({
         baseURL: `${SUPABASE_URL}/rest/v1`,
         requestAdapter: adapterFetch(),
